@@ -2,11 +2,10 @@ use crate::error::{RpcError, ServerKind};
 use http::header::AUTHORIZATION;
 use jsonrpsee::{
     core::{middleware::layer::RpcLogger, RegisterMethodError},
-    http_client::{transport::HttpBackend, HeaderMap, HttpClient},
-    server::{AlreadyStoppedError, RpcModule},
+    http_client::{transport::HttpBackend, HeaderMap, HttpClient,RpcService},
+    server::{AlreadyStoppedError, RpcModule,ServerConfig, ServerConfigBuilder,ServerBuilder},
     Methods,
 };
-use reth_rpc_api::servers::*;
 use reth_rpc_eth_types::EthSubscriptionIdProvider;
 use reth_rpc_layer::{
     secret_to_bearer_header, AuthClientLayer, AuthClientService, AuthLayer, JwtAuthValidator,
@@ -14,12 +13,10 @@ use reth_rpc_layer::{
 };
 use reth_rpc_server_types::constants;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
-use jsonrpsee::http_client::RpcService;
 use tower::layer::util::Identity;
 
-pub use jsonrpsee::server::ServerBuilder;
-use jsonrpsee::server::{ServerConfig, ServerConfigBuilder};
 pub use reth_ipc::server::Builder as IpcServerBuilder;
+use reth_rpc_api::IntoEngineApiRpcModule;
 
 /// Server configuration for the auth server.
 #[derive(Debug)]
