@@ -14,6 +14,7 @@ use reth_rpc_layer::{
 };
 use reth_rpc_server_types::constants;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use jsonrpsee::http_client::RpcService;
 use tower::layer::util::Identity;
 
 pub use jsonrpsee::server::ServerBuilder;
@@ -301,7 +302,7 @@ impl AuthServerHandle {
     }
 
     /// Returns a http client connected to the server.
-    pub fn http_client(&self) -> HttpClient<RpcLogger<jsonrpsee::http_client::RpcService<AuthClientService<HttpBackend>>>> {
+    pub fn http_client(&self) -> HttpClient<RpcLogger<RpcService<AuthClientService<HttpBackend>>>> {
         // Create a middleware that adds a new JWT token to every request.
         let secret_layer = AuthClientLayer::new(self.secret);
         let middleware = tower::ServiceBuilder::default().layer(secret_layer);
