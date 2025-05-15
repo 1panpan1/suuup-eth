@@ -116,9 +116,9 @@ pub static MAINNET: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
 pub static PULSE: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
     let genesis = serde_json::from_str(include_str!("../res/genesis/pulse.json"))
         .expect("Can't deserialize pulse genesis json");
-    let hardforks = EthereumHardfork::mainnet().into();
+    let hardforks = EthereumHardfork::pulsenet().into();
     let mut spec = ChainSpec {
-        chain: Chain::mainnet(),
+        chain: Chain::from_named(NamedChain::Pulsechain),
         genesis_header: SealedHeader::new(
             make_genesis_header(&genesis, &hardforks),
             b256!("d4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3"),
