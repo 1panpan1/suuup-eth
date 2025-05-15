@@ -113,6 +113,58 @@ pub static MAINNET: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
     spec.into()
 });
 
+pub static PULSE: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
+    let genesis = serde_json::from_str(include_str!("../res/genesis/pulse.json"))
+        .expect("Can't deserialize pulse genesis json");
+    let hardforks = EthereumHardfork::mainnet().into();
+    let mut spec = ChainSpec {
+        chain: Chain::mainnet(),
+        genesis_header: SealedHeader::new(
+            make_genesis_header(&genesis, &hardforks),
+            b256!("d4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3"),
+        ),
+        genesis,
+        // <https://etherscan.io/block/15537394>
+        paris_block_and_final_difficulty: Some((
+            15537394,
+            U256::from(58_750_003_716_598_352_947_541u128),
+        )),
+        hardforks,
+        // https://etherscan.io/tx/0xe75fb554e433e03763a1560646ee22dcb74e5274b34c5ad644e7c0f619a7e1d0
+        deposit_contract: Some(MAINNET_DEPOSIT_CONTRACT),
+        base_fee_params: BaseFeeParamsKind::Constant(BaseFeeParams::ethereum()),
+        prune_delete_limit: MAINNET_PRUNE_DELETE_LIMIT,
+        blob_params: BlobScheduleBlobParams::default(),
+    };
+    spec.genesis.config.dao_fork_support = true;
+    spec.into()
+});
+// pub static PULSE: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
+//     let mut spec = ChainSpec {
+//         chain: Chain::from_id(369),
+//         genesis: serde_json::from_str(include_str!("../res/genesis/pulse.json"))
+//             .expect("Can't deserialize Pulse genesis json"),
+//         genesis_hash: Some(PULSENET_GENESIS_HASH),
+//         // <https://etherscan.io/block/15537394>
+//         paris_block_and_final_difficulty: Some((
+//             15537394,
+//             //  58_750_003_716_598_352_947_541u128
+//             U256::from(58_750_003_716_598_352_947_541u128),
+//         )),
+//         hardforks: EthereumHardfork::pulsenet().into(),
+//         // https://etherscan.io/tx/0xe75fb554e433e03763a1560646ee22dcb74e5274b34c5ad644e7c0f619a7e1d0
+//         deposit_contract: Some(DepositContract::new(
+//             address!("4242424242424242424242424242424242424242"),
+//             11052984,
+//             b256!("649bbc62d0e31342afea4e5cd82d4049e7e1ee912fc0889aa790803be39038c5"),
+//         )),
+//         base_fee_params: BaseFeeParamsKind::Constant(BaseFeeParams::ethereum()),
+//         max_gas_limit: ETHEREUM_BLOCK_GAS_LIMIT,
+//         prune_delete_limit: 20000,
+//     };
+//     spec.genesis.config.dao_fork_support = true;
+//     spec.into()
+// });
 /// The Sepolia spec
 pub static SEPOLIA: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
     let genesis = serde_json::from_str(include_str!("../res/genesis/sepolia.json"))
