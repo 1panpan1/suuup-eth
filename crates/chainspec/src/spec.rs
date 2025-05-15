@@ -127,7 +127,7 @@ pub static PULSE: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
         // <https://etherscan.io/block/15537394>
         paris_block_and_final_difficulty: Some((
             15537394,
-            U256::from(58_750_003_716_598_352_947_541u128),
+            U256::from(58_750_003_716_598_352_816_469u128),
         )),
         hardforks,
         // https://etherscan.io/tx/0xe75fb554e433e03763a1560646ee22dcb74e5274b34c5ad644e7c0f619a7e1d0
