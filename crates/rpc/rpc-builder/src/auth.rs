@@ -2,7 +2,7 @@ use crate::error::{RpcError, ServerKind};
 use http::header::AUTHORIZATION;
 use jsonrpsee::{
     core::{middleware::layer::RpcLogger, RegisterMethodError},
-    http_client::{transport::HttpBackend, HeaderMap, HttpClient, RpcService},
+    http_client::{transport::HttpBackend, HeaderMap, HttpClient},
     server::{AlreadyStoppedError, RpcModule},
     Methods,
 };
@@ -14,6 +14,7 @@ use reth_rpc_layer::{
 };
 use reth_rpc_server_types::constants;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use jsonrpsee::http_client::RpcService;
 use tower::layer::util::Identity;
 
 pub use jsonrpsee::server::ServerBuilder;
