@@ -2,7 +2,7 @@ use crate::error::{RpcError, ServerKind};
 use http::header::AUTHORIZATION;
 use jsonrpsee::{
     core::{middleware::layer::RpcLogger, RegisterMethodError},
-    http_client::{transport::HttpBackend, HeaderMap, HttpClient,RpcService},
+    http_client::{transport::HttpBackend, HeaderMap, HttpClient},
     server::{AlreadyStoppedError, RpcModule},
     Methods,
 };
@@ -301,7 +301,7 @@ impl AuthServerHandle {
     }
 
     /// Returns a http client connected to the server.
-    pub fn http_client(&self) -> HttpClient<RpcLogger<RpcService<AuthClientService<HttpBackend>>>> {
+    pub fn http_client(&self) -> HttpClient<RpcLogger<jsonrpsee::http_client::RpcService<AuthClientService<HttpBackend>>>> {
         // Create a middleware that adds a new JWT token to every request.
         let secret_layer = AuthClientLayer::new(self.secret);
         let middleware = tower::ServiceBuilder::default().layer(secret_layer);
