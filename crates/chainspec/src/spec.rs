@@ -31,6 +31,7 @@ use reth_network_peers::{
     NodeRecord,
 };
 use reth_primitives_traits::{sync::LazyLock, SealedHeader};
+use crate::constants::PULSE_DEPOSIT_CONTRACT;
 
 /// Helper method building a [`Header`] given [`Genesis`] and [`ChainHardforks`].
 pub fn make_genesis_header(genesis: &Genesis, hardforks: &ChainHardforks) -> Header {
@@ -131,7 +132,7 @@ pub static PULSE: LazyLock<Arc<ChainSpec>> = LazyLock::new(|| {
         )),
         hardforks,
         // https://etherscan.io/tx/0xe75fb554e433e03763a1560646ee22dcb74e5274b34c5ad644e7c0f619a7e1d0
-        deposit_contract: Some(MAINNET_DEPOSIT_CONTRACT),
+        deposit_contract: Some(PULSE_DEPOSIT_CONTRACT),
         base_fee_params: BaseFeeParamsKind::Constant(BaseFeeParams::ethereum()),
         prune_delete_limit: MAINNET_PRUNE_DELETE_LIMIT,
         blob_params: BlobScheduleBlobParams::default(),
